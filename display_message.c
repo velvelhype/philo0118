@@ -6,20 +6,13 @@ void	error_exit()
 	exit(2);
 }
 
-size_t    get_time(void)
+size_t	get_time(void)
 {
-    struct timeval    tv;
+	struct	timeval	times;
 
-    gettimeofday(&tv, NULL);
-    return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
-}
-
-void	printf_time()
-{
-	struct timeval times;
 	if (gettimeofday(&times, NULL))
 		error_exit();
-	printf("%zu ", get_time());
+    return ((times.tv_sec * 1000) + (times.tv_usec / 1000));
 }
 
 // int main()

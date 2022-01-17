@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <pthread.h>
 #include <unistd.h>
-#include <stdbool.h>
 #include "libft/libft.h"
 #include <sys/time.h>
 
@@ -21,6 +20,6 @@ typedef struct s_status
 	pthread_mutex_t talk_mtx;
 } t_status;
 
+void	*philo_life(void *p);
 void	error_exit();
-void	printf_time();
 size_t	get_time();

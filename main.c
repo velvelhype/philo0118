@@ -12,10 +12,10 @@ void	*malloc_or_exit(size_t size)
 
 void	init_status(t_status *stat, int argc, char **argv)
 {
-	stat->max_number = custom_atoi(argv[1]);
+	stat->max = custom_atoi(argv[1]);
 	stat->number = custom_atoi(argv[1]);
 	stat->time_to_die = custom_atoi(argv[2]);
-	stat->last_meal_times = (size_t *)malloc_or_exit(sizeof(size_t) * stat->max_number);
+	stat->last_meal_t = (size_t *)malloc_or_exit(sizeof(size_t) * stat->max);
 	stat->eat_time = custom_atoi(argv[3]);
 	stat->sleep_time = custom_atoi(argv[4]);
 	if (argc == 6)
@@ -26,14 +26,14 @@ void	init_status(t_status *stat, int argc, char **argv)
 	}
 	else
 		stat->eat_limit = 0;
-	stat->eat_counts = (size_t *)malloc_or_exit(sizeof(size_t) * stat->max_number);
-	stat->forks = (int *)malloc_or_exit(sizeof(int) * stat->max_number);
+	stat->eat_counts = (size_t *)malloc_or_exit(sizeof(size_t) * stat->max);
+	stat->forks = (int *)malloc_or_exit(sizeof(int) * stat->max);
 	stat->fork_mutex = (pthread_mutex_t *)malloc_or_exit
-	(sizeof(pthread_mutex_t) * stat->max_number);
-	for (int i = 0; i < stat->max_number; i++)
+	(sizeof(pthread_mutex_t) * stat->max);
+	for (int i = 0; i < stat->max; i++)
 		stat->forks[i] = 1;
 	pthread_mutex_init(&stat->talk_mtx, NULL);
-	for (int i = 0; i < stat->max_number; i++)
+	for (int i = 0; i < stat->max; i++)
 		pthread_mutex_init(&stat->fork_mutex[i], NULL);
 }
 
@@ -41,7 +41,7 @@ void	are_philos_full(t_status *stat)
 {
 	if (stat->eat_limit == 0)
 		return ;
-	for (int i = 0; i < stat->max_number; i++)
+	for (int i = 0; i < stat->max; i++)
 	{
 		if (stat->eat_counts[i] < stat->eat_limit)
 			return ;
@@ -54,9 +54,9 @@ void	are_philos_starved(t_status *stat)
 	size_t now;
 
 	now = get_time();
-	for (int i = 0; i < stat->max_number; i++)
+	for (int i = 0; i < stat->max; i++)
 	{
-		if (stat->last_meal_times[i] + stat->time_to_die <= now)
+		if (stat->last_meal_t[i] + stat->time_to_die <= now)
 		{
 			printf("%zu ", get_time());
 			printf("%d died\n", i + 1);
@@ -65,15 +65,16 @@ void	are_philos_starved(t_status *stat)
 	}
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-	t_status stat;
+	t_status	stat;
+	pthread_t	*philos;
+
 	if (argc != 5 && argc != 6)
 		error_exit();
 	init_status(&stat, argc, argv);
-	pthread_t *philos;
-	philos = (pthread_t *)malloc_or_exit(sizeof(pthread_t) * stat.max_number);
-	for (int i = 0; i < stat.max_number; i++)
+	philos = (pthread_t *)malloc_or_exit(sizeof(pthread_t) * stat.max);
+	for (int i = 0; i < stat.max; i++)
 	{
 		if (pthread_create(&philos[i], NULL, &philo_life, &stat))
 			error_exit();

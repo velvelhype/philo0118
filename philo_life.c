@@ -2,7 +2,7 @@
 
 void	timer(unsigned long time)
 {
-	size_t ini;
+	size_t	ini;
 
 	if (time == 0)
 		return ;
@@ -24,7 +24,7 @@ void	action(char *message, t_status *stat, int code_number, int time)
 	if (!ft_strncmp("eat", message, ft_strlen(message)))
 	{
 		printf("%d is eating\n", code_number + 1);
-		stat->last_meal_times[code_number] = get_time();
+		stat->last_meal_t[code_number] = get_time();
 	}
 	if (!ft_strncmp("sleep", message, ft_strlen(message)))
 	{
@@ -49,21 +49,21 @@ void take_a_fork(t_status *stat, int code_number)
 {
 	while (1)
 	{
-		if (stat->forks[fork_number(code_number, stat->max_number)] &&
-			stat->forks[fork_number(code_number + 1, stat->max_number)])
+		if (stat->forks[fork_number(code_number, stat->max)] &&
+			stat->forks[fork_number(code_number + 1, stat->max)])
 		{
-			pthread_mutex_lock(&stat->fork_mutex[fork_number(code_number, stat->max_number)]);
-			pthread_mutex_lock(&stat->fork_mutex[fork_number(code_number + 1, stat->max_number)]);
-			stat->forks[fork_number(code_number + 1, stat->max_number)] = 0;
+			pthread_mutex_lock(&stat->fork_mutex[fork_number(code_number, stat->max)]);
+			pthread_mutex_lock(&stat->fork_mutex[fork_number(code_number + 1, stat->max)]);
+			stat->forks[fork_number(code_number + 1, stat->max)] = 0;
 			action("fork", stat, code_number, 0);
-			stat->forks[fork_number(code_number, stat->max_number)] = 0;
+			stat->forks[fork_number(code_number, stat->max)] = 0;
 			action("fork", stat, code_number, 0);
 			action("eat", stat, code_number, stat->eat_time);
 			(stat->eat_counts[code_number])++;
-			stat->forks[fork_number(code_number, stat->max_number)] = 1;
-			stat->forks[fork_number(code_number + 1, stat->max_number)] = 1;
-			pthread_mutex_unlock(&stat->fork_mutex[fork_number(code_number, stat->max_number)]);
-			pthread_mutex_unlock(&stat->fork_mutex[fork_number(code_number + 1, stat->max_number)]);
+			stat->forks[fork_number(code_number, stat->max)] = 1;
+			stat->forks[fork_number(code_number + 1, stat->max)] = 1;
+			pthread_mutex_unlock(&stat->fork_mutex[fork_number(code_number, stat->max)]);
+			pthread_mutex_unlock(&stat->fork_mutex[fork_number(code_number + 1, stat->max)]);
 			return;
 		}
 		usleep(100);
@@ -72,10 +72,13 @@ void take_a_fork(t_status *stat, int code_number)
 
 void *philo_life(void *p)
 {
-	t_status *stat = p;
+	int code_number;
+	t_status *stat;
+
+	stat = p;
 	stat->number -= 1;
-	int code_number = stat->number;
-	stat->last_meal_times[code_number] = get_time();
+	code_number = stat->number;
+	stat->last_meal_t[code_number] = get_time();
 	while (1)
 	{
 		take_a_fork(stat, code_number);

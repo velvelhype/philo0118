@@ -6,10 +6,10 @@
 
 typedef struct s_status
 {
-	int max_number;
+	int max;
 	int number;
 	int	time_to_die;
-	size_t	*last_meal_times;
+	size_t	*last_meal_t;
 	int	eat_time;
 	int sleep_time;
 	size_t	eat_limit;

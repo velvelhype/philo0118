@@ -12,7 +12,7 @@ typedef struct s_status
 	size_t	*last_meal_times;
 	int	eat_time;
 	int sleep_time;
-	int	eat_limit;
+	size_t	eat_limit;
 	size_t	*eat_counts;
 	int *forks;
 	pthread_mutex_t *fork_mutex;

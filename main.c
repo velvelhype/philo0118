@@ -78,7 +78,7 @@ int main(int argc, char **argv)
 		if (pthread_create(&philos[i], NULL, &philo_life, &stat))
 			error_exit();
 		pthread_detach(philos[i]);
-		usleep(100);
+		usleep(500);
 	}
 	while (1)
 	{

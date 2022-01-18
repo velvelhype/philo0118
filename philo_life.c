@@ -1,6 +1,6 @@
 #include "philo.h"
 
-void	timer(int time)
+void	timer(unsigned long time)
 {
 	size_t ini;
 

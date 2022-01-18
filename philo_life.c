@@ -66,6 +66,7 @@ void take_a_fork(t_status *stat, int code_number)
 			pthread_mutex_unlock(&stat->fork_mutex[fork_number(code_number + 1, stat->max_number)]);
 			return;
 		}
+		usleep(100);
 	}
 }
 
@@ -79,7 +80,7 @@ void *philo_life(void *p)
 	{
 		take_a_fork(stat, code_number);
 		action("sleep", stat, code_number, stat->sleep_time);
-		usleep(100);
+		usleep(500);
 		action("think", stat, code_number, 0);
 	}
 	return (NULL);

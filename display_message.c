@@ -1,5 +1,15 @@
 #include "philo.h"
 
+void	*malloc_or_exit(size_t size)
+{
+	void	*p;
+
+	p = malloc(size);
+	if (p == NULL)
+		error_exit();
+	return (p);
+}
+
 int	custom_atoi(const char *str)
 {
 	unsigned long	i;

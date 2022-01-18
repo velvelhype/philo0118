@@ -7,7 +7,7 @@ void	timer(unsigned long time)
 	if (time == 0)
 		return ;
 	ini = get_time();
-	while(1)
+	while (1)
 	{
 		if (get_time() - ini >= time)
 			return ;
@@ -36,7 +36,7 @@ void	action(char *message, t_status *stat, int code_number, int time)
 	timer(time);
 }
 
-int fork_number(int fork_number, int max_number)
+int	fork_cnt(int fork_number, int max_number)
 {
 	if (fork_number == max_number)
 		fork_number = 0;
@@ -45,35 +45,37 @@ int fork_number(int fork_number, int max_number)
 	return (fork_number);
 }
 
-void take_a_fork(t_status *stat, int code_number)
+void	take_a_fork(t_status *s, int c)
 {
 	while (1)
 	{
-		if (stat->forks[fork_number(code_number, stat->max)] &&
-			stat->forks[fork_number(code_number + 1, stat->max)])
+		if (s->forks[fork_cnt(c, s->max)])
 		{
-			pthread_mutex_lock(&stat->fork_mutex[fork_number(code_number, stat->max)]);
-			pthread_mutex_lock(&stat->fork_mutex[fork_number(code_number + 1, stat->max)]);
-			stat->forks[fork_number(code_number + 1, stat->max)] = 0;
-			action("fork", stat, code_number, 0);
-			stat->forks[fork_number(code_number, stat->max)] = 0;
-			action("fork", stat, code_number, 0);
-			action("eat", stat, code_number, stat->eat_time);
-			(stat->eat_counts[code_number])++;
-			stat->forks[fork_number(code_number, stat->max)] = 1;
-			stat->forks[fork_number(code_number + 1, stat->max)] = 1;
-			pthread_mutex_unlock(&stat->fork_mutex[fork_number(code_number, stat->max)]);
-			pthread_mutex_unlock(&stat->fork_mutex[fork_number(code_number + 1, stat->max)]);
-			return;
+			if (s->forks[fork_cnt(c + 1, s->max)])
+			{
+				pthread_mutex_lock(&s->fork_mutex[fork_cnt(c, s->max)]);
+				pthread_mutex_lock(&s->fork_mutex[fork_cnt(c + 1, s->max)]);
+				s->forks[fork_cnt(c + 1, s->max)] = 0;
+				action("fork", s, c, 0);
+				s->forks[fork_cnt(c, s->max)] = 0;
+				action("fork", s, c, 0);
+				action("eat", s, c, s->eat_time);
+				(s->eat_counts[c])++;
+				s->forks[fork_cnt(c, s->max)] = 1;
+				s->forks[fork_cnt(c + 1, s->max)] = 1;
+				pthread_mutex_unlock(&s->fork_mutex[fork_cnt(c, s->max)]);
+				pthread_mutex_unlock(&s->fork_mutex[fork_cnt(c + 1, s->max)]);
+				return ;
+			}
 		}
 		usleep(100);
 	}
 }
 
-void *philo_life(void *p)
+void	*philo_life(void *p)
 {
-	int code_number;
-	t_status *stat;
+	int			code_number;
+	t_status	*stat;
 
 	stat = p;
 	stat->number -= 1;

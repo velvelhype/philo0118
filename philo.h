@@ -20,6 +20,7 @@ typedef struct s_status
 	pthread_mutex_t talk_mtx;
 } t_status;
 
+int		custom_atoi(const char *str);
 void	*philo_life(void *p);
 void	error_exit();
 size_t	get_time();

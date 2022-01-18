@@ -27,7 +27,9 @@ void	action(char *message, t_status *stat, int code_number, int time)
 		stat->last_meal_times[code_number] = get_time();
 	}
 	if (!ft_strncmp("sleep", message, ft_strlen(message)))
+	{
 		printf("%d is sleeping\n", code_number + 1);
+	}
 	if (!ft_strncmp("think", message, ft_strlen(message)))
 		printf("%d is thinking\n", code_number + 1);
 	pthread_mutex_unlock(&stat->talk_mtx);
@@ -77,6 +79,7 @@ void *philo_life(void *p)
 	{
 		take_a_fork(stat, code_number);
 		action("sleep", stat, code_number, stat->sleep_time);
+		usleep(100);
 		action("think", stat, code_number, 0);
 	}
 	return (NULL);

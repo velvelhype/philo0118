@@ -13,7 +13,7 @@
 NAME = philo
 CC = gcc
 CFLAGS = -Werror -Wall -Wextra
-SRCS = display_message.c \
+SRCS = utils.c \
 main.c \
 philo_life.c
 

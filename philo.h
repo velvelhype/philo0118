@@ -22,10 +22,9 @@ typedef struct s_status
 	pthread_mutex_t	talk_mtx;
 }	t_status;
 
-void	*malloc_or_exit(size_t size);
 int		custom_atoi(const char *str);
 void	*philo_life(void *p);
-void	error_exit(void);
+void	error();
 size_t	get_time(void);
 
 #endif

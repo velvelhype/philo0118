@@ -24,7 +24,7 @@ int	init_count(t_status *stat, int argc, char **argv)
 	{
 		stat->eat_limit = custom_atoi(argv[5]);
 		if (stat->eat_limit == 0)
-			return(1);
+			return (1);
 		printf("%zu\n", stat->eat_limit);
 	}
 	else
@@ -70,7 +70,6 @@ int	are_philos_full(t_status *stat)
 	i = 0;
 	while (i < stat->max)
 	{
-		// printf("ec %zu el %zu\n", stat->eat_counts[i], stat->eat_limit);
 		if (stat->eat_counts[i] < stat->eat_limit)
 			return (0);
 		i++;
@@ -115,7 +114,7 @@ int	main(int argc, char **argv)
 		return (0);
 	}
 	philos = (pthread_t *)malloc(sizeof(pthread_t) * stat.max);
-	if(!philos)
+	if (!philos)
 		return (1);
 	i = 0;
 	while (i < stat.max)

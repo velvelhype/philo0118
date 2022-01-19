@@ -1,8 +1,8 @@
 #include "philo.h"
 
-void	error()
+void	error(void)
 {
-	write(1, "error\n", 7);	
+	write(1, "error\n", 7);
 }
 
 int	custom_atoi(const char *str)

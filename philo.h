@@ -24,7 +24,7 @@ typedef struct s_status
 
 int		custom_atoi(const char *str);
 void	*philo_life(void *p);
-void	error();
+void	error(void);
 size_t	get_time(void);
 
 #endif

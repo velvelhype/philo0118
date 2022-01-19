@@ -25,7 +25,6 @@ int	init_count(t_status *stat, int argc, char **argv)
 		stat->eat_limit = custom_atoi(argv[5]);
 		if (stat->eat_limit == 0)
 			return (1);
-		printf("%zu\n", stat->eat_limit);
 	}
 	else
 		stat->eat_limit = 0;

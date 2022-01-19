@@ -13,9 +13,9 @@
 NAME = philo
 CC = gcc
 CFLAGS = -Werror -Wall -Wextra -g -fsanitize=address
-SRCS = utils.c \
-main.c \
-philo_life.c
+SRCS = main.c \
+philo_life.c \
+utils.c
 
 OBJS = $(SRCS:.c=.o)
 

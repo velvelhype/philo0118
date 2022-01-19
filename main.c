@@ -52,6 +52,7 @@ int	init_status(t_status *stat, int argc, char **argv)
 	i = 0;
 	while (i < stat->max)
 	{
+		stat->eat_counts[i] = 0;
 		stat->forks[i] = 1;
 		pthread_mutex_init(&stat->fork_mutex[i], NULL);
 		i++;
@@ -69,6 +70,7 @@ int	are_philos_full(t_status *stat)
 	i = 0;
 	while (i < stat->max)
 	{
+		// printf("ec %zu el %zu\n", stat->eat_counts[i], stat->eat_limit);
 		if (stat->eat_counts[i] < stat->eat_limit)
 			return (0);
 		i++;

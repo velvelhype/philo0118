@@ -12,7 +12,7 @@
 
 NAME = philo
 CC = gcc
-CFLAGS = -Werror -Wall -Wextra
+CFLAGS = -Werror -Wall -Wextra -g -fsanitize=address
 SRCS = utils.c \
 main.c \
 philo_life.c

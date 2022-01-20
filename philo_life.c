@@ -40,8 +40,7 @@ int	fork_cnt(int fork_number, int max_number)
 {
 	if (fork_number == max_number)
 		fork_number = 0;
-	else if (fork_number == -1)
-		fork_number = max_number - 1;
+
 	return (fork_number);
 }
 
@@ -49,24 +48,21 @@ void	take_a_fork(t_status *s, int c)
 {
 	while (1)
 	{
-		if (s->forks[fork_cnt(c, s->max)])
+		if (s->forks[fork_cnt(c, s->max)] == 1 && s->forks[fork_cnt(c + 1, s->max)] == 1)
 		{
-			if (s->forks[fork_cnt(c + 1, s->max)])
-			{
-				pthread_mutex_lock(&s->fork_mutex[fork_cnt(c, s->max)]);
-				pthread_mutex_lock(&s->fork_mutex[fork_cnt(c + 1, s->max)]);
-				s->forks[fork_cnt(c + 1, s->max)] = 0;
-				action("fork", s, c, 0);
-				s->forks[fork_cnt(c, s->max)] = 0;
-				action("fork", s, c, 0);
-				action("eat", s, c, s->eat_time);
-				(s->eat_counts[c])++;
-				s->forks[fork_cnt(c, s->max)] = 1;
-				s->forks[fork_cnt(c + 1, s->max)] = 1;
-				pthread_mutex_unlock(&s->fork_mutex[fork_cnt(c, s->max)]);
-				pthread_mutex_unlock(&s->fork_mutex[fork_cnt(c + 1, s->max)]);
-				return ;
-			}
+			pthread_mutex_lock(&s->fork_mutex[fork_cnt(c, s->max)]);
+			pthread_mutex_lock(&s->fork_mutex[fork_cnt(c + 1, s->max)]);
+			s->forks[fork_cnt(c, s->max)] = 0;
+			action("fork", s, c, 0);
+			s->forks[fork_cnt(c + 1, s->max)] = 0;
+			action("fork", s, c, 0);
+			action("eat", s, c, s->eat_time);
+			(s->eat_counts[c])++;
+			s->forks[fork_cnt(c, s->max)] = 1;
+			s->forks[fork_cnt(c + 1, s->max)] = 1;
+			pthread_mutex_unlock(&s->fork_mutex[fork_cnt(c, s->max)]);
+			pthread_mutex_unlock(&s->fork_mutex[fork_cnt(c + 1, s->max)]);
+			return ;
 		}
 		usleep(100);
 	}

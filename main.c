@@ -38,10 +38,10 @@ int	init_status(t_status *stat, int argc, char **argv)
 
 	if (init_count(stat, argc, argv))
 		return (1);
-	stat->eat_counts = (size_t *)malloc(sizeof(size_t) * stat->max);
+	stat->eat_counts = (size_t *)malloc(sizeof(size_t) * (stat->max + 1));
 	if (!stat->eat_counts)
 		return (1);
-	stat->forks = (int *)malloc(sizeof(int) * stat->max);
+	stat->forks = (int *)malloc(sizeof(int) * (stat->max + 1));
 	if (!stat->forks)
 		return (1);
 	norm_esc = sizeof(pthread_mutex_t) * stat->max;
@@ -101,7 +101,6 @@ int	main(int argc, char **argv)
 	t_status	stat;
 	pthread_t	*philos;
 	int			i;
-
 	if (argc != 5 && argc != 6)
 	{
 		error();
@@ -112,6 +111,7 @@ int	main(int argc, char **argv)
 		error();
 		return (0);
 	}
+
 	philos = (pthread_t *)malloc(sizeof(pthread_t) * stat.max);
 	if (!philos)
 		return (1);
@@ -130,6 +130,9 @@ int	main(int argc, char **argv)
 	while (1)
 	{
 		if (are_philos_starved(&stat) || are_philos_full(&stat))
+		{
+			// system("leaks philo");
 			return (0);
+		}
 	}
 }

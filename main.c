@@ -131,7 +131,6 @@ int	main(int argc, char **argv)
 	{
 		if (are_philos_starved(&stat) || are_philos_full(&stat))
 		{
-			// system("leaks philo");
 			return (0);
 		}
 	}

@@ -5,6 +5,44 @@ void	error(void)
 	write(1, "error\n", 7);
 }
 
+int	ft_isdigit(int c)
+{
+	if (c >= '0' && c <= '9')
+		return (1);
+	else
+		return (0);
+}
+
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
+{
+	unsigned int	i;
+	unsigned int	b;
+
+	i = 0;
+	b = n - 1;
+	if (n == 0)
+		return (0);
+	while (s1[i] == s2[i] && i != b)
+	{
+		if (s1[i] == '\0' && s2[i] == '\0')
+		{
+			return (0);
+		}
+		i++;
+	}
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+}
+
+size_t	ft_strlen(const char *str)
+{
+	size_t	i;
+
+	i = 0;
+	while (str[i] != '\0')
+		i++;
+	return (i);
+}
+
 int	custom_atoi(const char *str)
 {
 	unsigned long	i;

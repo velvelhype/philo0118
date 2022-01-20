@@ -3,8 +3,8 @@
 # include <stdio.h>
 # include <pthread.h>
 # include <unistd.h>
-# include "libft/libft.h"
 # include <sys/time.h>
+# include <stdlib.h>
 
 typedef struct s_status
 {
@@ -22,6 +22,8 @@ typedef struct s_status
 	pthread_mutex_t	talk_mtx;
 }	t_status;
 
+size_t	ft_strlen(const char *str);
+int	ft_strncmp(const char *s1, const char *s2, size_t n);
 int		custom_atoi(const char *str);
 void	*philo_life(void *p);
 void	error(void);
